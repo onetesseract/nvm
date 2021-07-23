@@ -1,0 +1,40 @@
+[
+  {
+    "arguments": [
+      "/usr/bin/gcc",
+      "-c",
+      "-I./headers",
+      "-I.",
+      "-I./src",
+      "-I./headers",
+      "-I./out",
+      "-O2",
+      "-I/usr/include",
+      "-o",
+      "./out/nvm",
+      "./src/main.c"
+    ],
+    "directory": "/home/onetesseract/nvm",
+    "file": "/home/onetesseract/nvm/./src/main.c",
+    "output": "/home/onetesseract/nvm/./out/nvm"
+  },
+  {
+    "arguments": [
+      "/usr/bin/gcc",
+      "-c",
+      "-I./headers",
+      "-I.",
+      "-I./src",
+      "-I./headers",
+      "-I./out",
+      "-O2",
+      "-I/usr/include",
+      "-o",
+      "./out/nvm",
+      "./src/map.c"
+    ],
+    "directory": "/home/onetesseract/nvm",
+    "file": "/home/onetesseract/nvm/./src/map.c",
+    "output": "/home/onetesseract/nvm/./out/nvm"
+  }
+]
