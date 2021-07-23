@@ -45,5 +45,5 @@ clean:
 	rm -rf $(OUT_DIR)
 
 # run
-run: $(OUT)
+run: $(TARGET)
 	$(OUT)
