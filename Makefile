@@ -1,21 +1,3 @@
-# C_SOURCES = $(shell find -name "*.c")
-# HEADER_DIR = ./headers/
-# OUTPUT_NAME = nvm.o
-# OBJ = ${C_SOURCES:.c=.o}
-# 
-# CFLAGS = -I ${HEADER_DIR}
-# run: ${OUTPUT_NAME}
-# 	./${OUTPUT_NAME}
-# 
-# %.o: %.c
-# 	gcc ${CFLAGS} -c $< -o $@
-# 
-# ${OUTPUT_NAME}: ${OBJ}
-# 	gcc $^ -o $@
-# 
-# clean:
-# 	rm ${OBJ} ${OUTPUT_NAME}
-
 # App name
 TARGET = nvm
 
@@ -51,6 +33,6 @@ run: $(TARGET)
 
 debug:
 	mkdir -p $(OUT_DIR)
-	cp ~/neoncode/prog.neonbin .
+	cp ~/neoncode/prog.neonbin . # this is messy, need to fix
 	$(CC) $(SRC) $(INC) $(LIB) $(FLG) $(DBG_FLG) -o $(OUT_DIR)/$@ $^
 	$(OUT_DIR)/$@
