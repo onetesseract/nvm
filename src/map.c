@@ -8,6 +8,17 @@
 map_t new_map_from_file(FILE* file) { // reads a map from a file. has no "invalidity" checks as such.
     uint64_t map_len;
     uint8_t len_buff[8];
+
+    uint8_t functions_count;
+    uint8_t frames_count;
+
+    function_t* functions;
+    frame_map_t* frames;
+
+    map_t map;
+
+    uint8_t dlen_buff[8];
+
     fgets((char*) len_buff, 9, file);
     memcpy(&map_len, len_buff, sizeof(map_len));
     #ifdef DEBUG // we don't need this for loop in non-debug
@@ -18,12 +29,12 @@ map_t new_map_from_file(FILE* file) { // reads a map from a file. has no "invali
     debug("\nMap len: %lu\n", map_len);
 
     
-    uint8_t functions_count = fgetc(file);
-    uint8_t frames_count = fgetc(file);
+    functions_count = fgetc(file);
+    frames_count = fgetc(file);
     debug("fn count: %d, frame count: %d", functions_count, frames_count);
 
-    function_t* functions = (function_t*)malloc(sizeof(function_t)*functions_count);
-    frame_map_t* frames = (frame_map_t*)malloc(sizeof(frame_map_t)*frames_count);
+    functions = (function_t*)malloc(sizeof(function_t)*functions_count);
+    frames = (frame_map_t*)malloc(sizeof(frame_map_t)*frames_count);
 
     for(int i = 0; i < functions_count; i++) {
         debug("reading fn");
@@ -34,7 +45,6 @@ map_t new_map_from_file(FILE* file) { // reads a map from a file. has no "invali
         debug("reading frame");
         frames[i] = read_frame(file);
     }
-    map_t map;
 
     map.function_count = functions_count;
     map.frame_count = frames_count;
@@ -42,7 +52,6 @@ map_t new_map_from_file(FILE* file) { // reads a map from a file. has no "invali
     map.frames = frames;
     map.len = map_len;
 
-    uint8_t dlen_buff[8];
     fgets((char*) dlen_buff, 9, file);
     memcpy(&map.data_len, dlen_buff, sizeof(map.data_len));
     debug("data len: %lu\n", map.data_len);
@@ -61,6 +70,7 @@ function_t read_function(FILE* file) { // glorified fgetc wrapper
 frame_map_t read_frame(FILE* file) { // another glorified fgetc wrapper
     frame_map_t frame;
     uint8_t val_buf[8];
+    
     fgets((char*) val_buf, 9, file);
     memcpy(&frame.start_index, val_buf, sizeof(uint8_t)*8);
     frame.varcount = fgetc(file);
