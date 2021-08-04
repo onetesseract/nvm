@@ -34,6 +34,7 @@ SRC := $(shell find $(SRC_DIR) \( -name "*.c" \))
 OBJ := $(SRC:.c=.o)
 OUT := $(OUT_DIR)/$(TARGET)
 FLG := -O2 -I/usr/include
+DBG_FLG := -DDEBUG
 
 # make
 $(TARGET):
@@ -47,3 +48,9 @@ clean:
 # run
 run: $(TARGET)
 	$(OUT)
+
+debug:
+	mkdir -p $(OUT_DIR)
+	cp ~/neoncode/prog.neonbin .
+	$(CC) $(SRC) $(INC) $(LIB) $(FLG) $(DBG_FLG) -o $(OUT_DIR)/$@ $^
+	$(OUT_DIR)/$@
