@@ -8,7 +8,7 @@
 map_t new_map_from_file(FILE* file) { // reads a map from a file. has no "invalidity" checks as such.
     uint64_t map_len;
     uint8_t len_buff[8];
-    fgets(len_buff, 9, file);
+    fgets((char*) len_buff, 9, file);
     memcpy(&map_len, len_buff, sizeof(map_len));
     #ifdef DEBUG // we don't need this for loop in non-debug
     for(int i = 0; i < 8; i++) {
@@ -61,13 +61,13 @@ function_t read_function(FILE* file) { // glorified fgetc wrapper
 frame_map_t read_frame(FILE* file) { // another glorified fgetc wrapper
     frame_map_t frame;
     uint8_t val_buf[8];
-    fgets(val_buf, 9, file);
+    fgets((char*) val_buf, 9, file);
     memcpy(&frame.start_index, val_buf, sizeof(uint8_t)*8);
     frame.varcount = fgetc(file);
     frame.const_len = fgetc(file);
     frame.const_indexes = (uint64_t*)malloc(sizeof(uint64_t)*frame.const_len);
     for(int i = 0; i < frame.const_len; i++) {
-        fgets(val_buf, 9, file);
+        fgets((char*)val_buf, 9, file);
         memcpy(&(frame.const_indexes[i]), val_buf, sizeof(uint8_t)*8);
     }
     return frame;

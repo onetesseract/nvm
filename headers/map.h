@@ -1,3 +1,8 @@
+#pragma once
+
+#ifndef MAP_H
+#define MAP_H
+
 #include <stdint.h>
 #include <stdlib.h>
 #include <stdio.h>
@@ -29,3 +34,5 @@ typedef struct map_t { // the map as it is read from the file
 map_t new_map_from_file(FILE* file);
 function_t read_function(FILE* file);
 frame_map_t read_frame(FILE* file);
+
+#endif
