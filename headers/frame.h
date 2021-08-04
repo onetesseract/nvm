@@ -5,7 +5,7 @@
 #define FRAME_H
 
 typedef struct frame_t { // where values are stored in runtime for a frame
-    uint8_t* values;
+    void** values;
 } frame_t;
 
 #endif

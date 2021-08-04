@@ -10,13 +10,14 @@
       "-I./out",
       "-O2",
       "-I/usr/include",
+      "-DDEBUG",
       "-o",
-      "./out/nvm",
+      "./out/debug",
       "./src/main.c"
     ],
     "directory": "/home/onetesseract/nvm",
     "file": "/home/onetesseract/nvm/./src/main.c",
-    "output": "/home/onetesseract/nvm/./out/nvm"
+    "output": "/home/onetesseract/nvm/./out/debug"
   },
   {
     "arguments": [
@@ -29,12 +30,13 @@
       "-I./out",
       "-O2",
       "-I/usr/include",
+      "-DDEBUG",
       "-o",
-      "./out/nvm",
+      "./out/debug",
       "./src/map.c"
     ],
     "directory": "/home/onetesseract/nvm",
     "file": "/home/onetesseract/nvm/./src/map.c",
-    "output": "/home/onetesseract/nvm/./out/nvm"
+    "output": "/home/onetesseract/nvm/./out/debug"
   }
 ]

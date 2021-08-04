@@ -37,12 +37,12 @@ map_t new_map_from_file(FILE* file) { // reads a map from a file. has no "invali
     frames = (frame_map_t*)malloc(sizeof(frame_map_t)*frames_count);
 
     for(int i = 0; i < functions_count; i++) {
-        debug("reading fn");
+        debug("reading fn\n");
         functions[i] = read_function(file);
     }
 
     for(int i = 0; i < frames_count; i++) {
-        debug("reading frame");
+        debug("reading frame\n");
         frames[i] = read_frame(file);
     }
 
@@ -56,7 +56,12 @@ map_t new_map_from_file(FILE* file) { // reads a map from a file. has no "invali
     memcpy(&map.data_len, dlen_buff, sizeof(map.data_len));
     debug("data len: %lu\n", map.data_len);
     map.data_section = (uint8_t*) malloc(sizeof(uint8_t)*map.data_len); // MILM - man I love malloc
-    fgets((char*) map.data_section, map.data_len+1, file); // the constant/data section is read into memory
+    // fgets((char*) map.data_section, map.data_len+2, file); // the constant/data section is read into memory - for some reason fgets does not work
+    for(int i = 0; i < map.data_len; i++) {
+        map.data_section[i] = fgetc(file);
+    }
+    debug("map-data-3: %d\n", map.data_section[2]);
+    // printf("just a test: %d\n", fgetc(file));
     return map;
 }
 
@@ -70,7 +75,7 @@ function_t read_function(FILE* file) { // glorified fgetc wrapper
 frame_map_t read_frame(FILE* file) { // another glorified fgetc wrapper
     frame_map_t frame;
     uint8_t val_buf[8];
-    
+
     fgets((char*) val_buf, 9, file);
     memcpy(&frame.start_index, val_buf, sizeof(uint8_t)*8);
     frame.varcount = fgetc(file);
