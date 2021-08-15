@@ -4,39 +4,43 @@
       "/usr/bin/gcc",
       "-c",
       "-I./headers",
+      "-I./headers/neon_serialise",
       "-I.",
       "-I./src",
       "-I./headers",
+      "-I./headers/neon_serialise",
       "-I./out",
       "-O2",
-      "-I/usr/include",
-      "-DDEBUG",
+      "-I/usr/include/",
+      "-I/home/onetesseract/.local/include/",
       "-o",
-      "./out/debug",
+      "./out/nvm",
       "./src/main.c"
     ],
     "directory": "/home/onetesseract/nvm",
     "file": "/home/onetesseract/nvm/./src/main.c",
-    "output": "/home/onetesseract/nvm/./out/debug"
+    "output": "/home/onetesseract/nvm/./out/nvm"
   },
   {
     "arguments": [
       "/usr/bin/gcc",
       "-c",
       "-I./headers",
+      "-I./headers/neon_serialise",
       "-I.",
       "-I./src",
       "-I./headers",
+      "-I./headers/neon_serialise",
       "-I./out",
       "-O2",
-      "-I/usr/include",
-      "-DDEBUG",
+      "-I/usr/include/",
+      "-I/home/onetesseract/.local/include/",
       "-o",
-      "./out/debug",
+      "./out/nvm",
       "./src/map.c"
     ],
     "directory": "/home/onetesseract/nvm",
     "file": "/home/onetesseract/nvm/./src/map.c",
-    "output": "/home/onetesseract/nvm/./out/debug"
+    "output": "/home/onetesseract/nvm/./out/nvm"
   }
 ]

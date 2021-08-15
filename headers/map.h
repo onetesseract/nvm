@@ -9,26 +9,33 @@
 
 #include <root.h>
 
+typedef struct variables_map_t {
+    uint64_t index_len;
+    uint64_t* indexes;
+    uint64_t max_size;
+} variables_map_t;
+
 typedef struct frame_map_t { // what is read as a frame from the file - todo: rename to avoid confusion with frame.h::frame
     uint64_t start_index;
-    uint8_t varcount;
-    uint8_t const_len;
+    variables_map_t variables;
+    uint64_t const_len;
     uint64_t* const_indexes; // where constant variables are within the data section
 } frame_map_t;
 
 typedef struct function_t { // what is read as a function from the file
-    uint8_t argcount;
-    uint8_t frame_index;
+    variables_map_t arguments;
+    uint64_t frame_index;
 } function_t;
 
 typedef struct map_t { // the map as it is read from the file
     function_t* functions;
-    uint32_t function_count;
+    uint64_t function_count;
     frame_map_t* frames;
-    uint32_t frame_count;
+    uint64_t frame_count;
     uint64_t len;
     uint64_t data_len;
     uint8_t* data_section;
+    variables_map_t data_shape;
 } map_t;
 
 map_t new_map_from_file(FILE* file);

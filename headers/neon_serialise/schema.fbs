@@ -1,0 +1,25 @@
+namespace Neon.BinaryEncoding;
+
+table variables_type {
+    indexes:[uint64];
+}
+
+table frame_map {
+    start_index:uint64;
+    variables:variables_type;
+    constant_indexes:[uint64];
+}
+
+table function_map {
+    variables:variables_type;
+    entry_frame_index:uint64;
+}
+
+table map {
+    functions:[function_map];
+    frames:[frame_map];
+    data:[ubyte];
+    data_shape:variables_type;
+}
+
+root_type map;

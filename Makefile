@@ -15,7 +15,7 @@ LIB := $(shell find $(LIB_DIR) -type d | sed -e 's/^/-I/' | grep -v ".git" | tr 
 SRC := $(shell find $(SRC_DIR) \( -name "*.c" \))
 OBJ := $(SRC:.c=.o)
 OUT := $(OUT_DIR)/$(TARGET)
-FLG := -O2 -I/usr/include
+FLG := -O2 -I/usr/include/ -I/home/onetesseract/.local/include/
 DBG_FLG := -DDEBUG
 
 # make
