@@ -18,8 +18,6 @@ typedef struct variables_map_t {
 typedef struct frame_map_t { // what is read as a frame from the file - todo: rename to avoid confusion with frame.h::frame
     uint64_t start_index;
     variables_map_t variables;
-    uint64_t const_len;
-    uint64_t* const_indexes; // where constant variables are within the data section
 } frame_map_t;
 
 typedef struct function_t { // what is read as a function from the file
@@ -41,5 +39,6 @@ typedef struct map_t { // the map as it is read from the file
 map_t new_map_from_file(FILE* file);
 function_t read_function(FILE* file);
 frame_map_t read_frame(FILE* file);
+uint64_t read_uint64(FILE* file);
 
 #endif

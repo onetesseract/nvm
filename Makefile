@@ -16,7 +16,7 @@ SRC := $(shell find $(SRC_DIR) \( -name "*.c" \))
 OBJ := $(SRC:.c=.o)
 OUT := $(OUT_DIR)/$(TARGET)
 FLG := -O2 -I/usr/include/ -I/home/onetesseract/.local/include/
-DBG_FLG := -DDEBUG
+DBG_FLG := -DDEBUG -g
 
 # make
 $(TARGET):
@@ -33,6 +33,6 @@ run: $(TARGET)
 
 debug:
 	mkdir -p $(OUT_DIR)
-	cp ~/neoncode/prog.neonbin . # this is messy, need to fix
+	# cp ~/neoncode/prog.neonbin . # this is messy, need to fix
 	$(CC) $(SRC) $(INC) $(LIB) $(FLG) $(DBG_FLG) -o $(OUT_DIR)/$@ $^
 	$(OUT_DIR)/$@
