@@ -1,3 +1,4 @@
+#include "map.h"
 #include "values.h"
 #include <running.h>
 #include <stdint.h>
@@ -15,6 +16,7 @@ uint8_t run_root_frame(FILE* file, map_t* map, uint64_t frame_index) {
         fseek(file, map->frames[frame_index].start_index, map->len);
         frame.values = (void*) malloc(sizeof(void*)*map->frames[frame_index].variables.index_len);
         frame.varcount = map->frames[frame_index].variables.index_len;
+        debug("Variables len: %lu\n", map->frames[frame_index].variables.index_len);
         for (int i = 0; i < map->frames[frame_index].variables.index_len; i++) {
             frame.values[i] = NULL; // theres gotta be a better way than this
         }
@@ -30,18 +32,34 @@ uint8_t run_nonroot_frame(FILE* file, map_t* map, uint64_t frame_index, frame_t*
 
     uint8_t return_val;
 
+    debug("Jumping to frame index %lu\n", frame_index);
+    // malloc(sizeof(uint8_t) * 64); // needless malloc to test something
+
     if (map->frame_count <= frame_index) { // todo: unduplicate logic
+        debug("Trying to jump to frame index %lu but the frame count is %lu\n", frame_index, map->frame_count);
         printf("no kekw\n"); return_val = 1;
     } else {
-        fseek(file, map->frames[frame_index].start_index, map->len);
+        debug("fseeking to %lu with offset %lu\n", map->frames[frame_index].start_index, map->len + 8); // add 8 to account for the size of the map len indicator itself
+        fseek(file, map->frames[frame_index].start_index + map->len + 8, SEEK_SET);
         frame.values = (void*) malloc(sizeof(void*)*map->frames[frame_index].variables.index_len);
+        debug("Set frame values pointer as %p\n", frame.values);
         frame.varcount = map->frames[frame_index].variables.index_len;
-        for (int i = 0; i < map->frames[frame_index].variables.index_len; i++) {
+        debug("Variables len: %lu\n", map->frames[frame_index].variables.index_len);
+        for (int i = 0; i < map->frames[frame_index].variables.index_len; i++) { // todo: refactor into memset?
             frame.values[i] = NULL;
         }
         return_val = run_chain_off_file(file, &frame, &map->frames[frame_index], map);
     }
     return return_val;
+}
+
+void frame_free(frame_t* frame) {
+    for (int i = 0; i < frame->varcount; i++) {
+        if(frame->values[i] != NULL) {
+            free(frame->values[i]);
+        }
+    }
+    free(frame->values);
 }
 
 uint8_t run_chain_off_file(FILE* file, frame_t* frame, frame_map_t* map_frame, map_t* map) { // just runs code from the given file, using the given frame, map etc
@@ -192,16 +210,19 @@ uint8_t run_chain_off_file(FILE* file, frame_t* frame, frame_map_t* map_frame, m
 
                 }
             }
-            case 0xF1: { // jump
+            case 0xF1: { // jump - no going back to this frame then.
                 uint64_t index;
                 uint8_t ret;
 
                 index = read_uint64(file);
 
+                frame_free(frame);
+
                 ret = run_nonroot_frame(file, map, index, frame);
                 if(ret != 0) { // there has been an error
                     return_val = ret;
                 }
+                return return_val; // we have freed all the memory, we cannot go back now lol
                 break;
             }
             default: {

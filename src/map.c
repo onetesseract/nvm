@@ -44,6 +44,7 @@ map_t new_map_from_file(FILE* file) { // reads a map from a file. has no "invali
         map.frames[i].start_index = ns(frame_map_start_index(ns(frame_map_vec_at(frame_vec, i))));
         ns(variables_type_table_t) flat_variables = ns(frame_map_variables)(ns(frame_map_vec_at(frame_vec, i)));
         map.frames[i].variables = from_flat(flat_variables);
+        debug("Frame index len %lu\n", map.frames[i].variables.index_len);
     }
 
     ns(function_map_vec_t) func_vec = ns(map_functions(flat_map));

@@ -38,6 +38,8 @@ uint8_t* get_val(frame_t* frame, frame_map_t* map_frame, uint8_t index, map_t* m
 uint8_t set_val(frame_t* frame, frame_map_t* map_frame, map_t* map, uint8_t index, uint8_t* value, uint64_t size) { // handles setting variables of a frame given an index and size IN BYTES
     uint8_t return_val = 0;
 
+    debug("Frame values: %p\n", frame->values);
+
     if(map->data_shape.index_len > index) {
         printf("Tried to set a constant variable (index: %d, value: %d)", index, *value); // we could overwrite constant variables, but that isnt the point of a constant...
         return_val = 1;
@@ -59,12 +61,12 @@ uint8_t set_val(frame_t* frame, frame_map_t* map_frame, map_t* map, uint8_t inde
             }
         }
         if(working_frame->values[(index - map->data_shape.index_len) - variables_passed] == NULL) {
+            debug("Was null\n");
             working_frame->values[(index - map->data_shape.index_len) - variables_passed] = malloc(sizeof(uint8_t) * size);
         }
-        debug("[SET] This is index: %d, c_len: %lu, vp: %lu\n", index, map->data_shape.index_len, variables_passed);
+        debug("[SET] This is index: %d, c_len: %lu, vp: %lu, s: %lu\n", index, map->data_shape.index_len, variables_passed, size);
+
         memcpy(working_frame->values[(index - map->data_shape.index_len) - variables_passed], value, size);
-        // frame->values[index - map_frame->const_len]; // this is tricky. We should not set it directly to the value, but to a pointer to that, so we can handle things of indefinite bitwidth
-                                                        // but thats effort and you get a lot of *((void*) (&map->...)) or something else complicated
     }
     return return_val;
 }   
